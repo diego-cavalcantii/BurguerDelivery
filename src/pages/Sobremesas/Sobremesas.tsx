@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, CategoryList, Layout, ProductCard } from "../../components";
-import { ProductCategories, ProductWrapper } from "./Hamburgers.style";
+import { ProductCategories, ProductWrapper } from "../Hamburgers/Hamburgers.style";
 import {
   ProductCardContent,
   ProductCardPrice,
 } from "../../components/ProductCard/ProductCard.style";
 
-export default function Hamburgers() {
+export default function Sobremesas() {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -33,8 +33,8 @@ export default function Hamburgers() {
     }
   }
 
-  const getHamburguers = async () => {
-    const url = "http://localhost:8000/hamburgers"
+  const getSobremesas = async () => {
+    const url = "http://localhost:8000/desserts"
     setIsLoading(true);
     try {
       const response = await fetch(url)
@@ -54,12 +54,14 @@ export default function Hamburgers() {
   }, []);
 
   useEffect(() => {
-    getHamburguers()
+    getSobremesas()
   }, []);
+
+
 
   return (
     <Layout>
-      <h1>Hamburgers</h1>
+      <h1>Sobremesas</h1>
       <ProductCategories>
       {isLoading ? (<p>Carregando</p>)
           : (
