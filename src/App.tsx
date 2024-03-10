@@ -4,6 +4,7 @@ import Hamburgers from "./pages/Hamburgers/Hamburgers";
 import Desserts from "./pages/Desserts/Desserts";
 import Beverages from "./pages/Beverages/Beverages";
 import Appetizers from "./pages/Appetizes/Appetizers";
+import Combos from "./pages/Combos/Combos";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/bebidas" element={<Beverages />} />
         <Route path="/bebidas" element={<Beverages />} />
         <Route path="/entradas" element={<Appetizers />} />
+        <Route path="/combos" element={<Combos />} />
       </Routes>
     </BrowserRouter>
   );

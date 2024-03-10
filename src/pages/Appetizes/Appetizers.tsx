@@ -10,7 +10,7 @@ export default function Appetizers() {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [selectedPrices, setSelectedPrices] = useState({}); // Estado para armazenar os preços selecionados
+  const [selectedPrices, setSelectedPrices] = useState("small"); // Estado para armazenar os preços selecionados
 
   const priceFormat = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -42,12 +42,6 @@ export default function Appetizers() {
       const data = await response.json();
 
       // Inicializar os preços selecionados para cada produto como "small"
-      const initialSelectedPrices = {};
-      data.forEach((_, index) => {
-        initialSelectedPrices[index] = "small";
-      });
-
-      setSelectedPrices(initialSelectedPrices);
       setProducts(data);
     } catch (error) {
       console.log(error);
@@ -64,10 +58,8 @@ export default function Appetizers() {
     getAppetizers();
   }, []);
 
-  const handlePriceChange = (index, price) => {
-    const updatedSelectedPrices = { ...selectedPrices }; // Criando uma cópia do estado atual
-    updatedSelectedPrices[index] = price; // Atualizando o preço selecionado para o produto com o índice correspondente
-    setSelectedPrices(updatedSelectedPrices); // Atualizando o estado com o novo objeto de preços selecionados
+  const handlePriceChange = (index: number, price: string) => {
+    setSelectedPrices({ selectedPrices, [index]: price }); // Atualizar o preço selecionado para o produto com o índice correspondente
   };
 
   return (
@@ -101,8 +93,7 @@ export default function Appetizers() {
                     onChange={() => handlePriceChange(index, "small")}
                   />
                   <label htmlFor={`price_small_${index}`}>Pequeno</label>
-                </div>
-                <div>
+
                   <input
                     type="radio"
                     id={`price_large_${index}`}
