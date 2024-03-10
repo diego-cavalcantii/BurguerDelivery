@@ -6,7 +6,7 @@ import {
   ProductCardPrice,
 } from "../../components/ProductCard/ProductCard.style";
 
-export default function Sobremesas() {
+export default function Desserts() {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -33,7 +33,7 @@ export default function Sobremesas() {
     }
   }
 
-  const getSobremesas = async () => {
+  const getDesserts = async () => {
     const url = "http://localhost:8000/desserts"
     setIsLoading(true);
     try {
@@ -54,8 +54,10 @@ export default function Sobremesas() {
   }, []);
 
   useEffect(() => {
-    getSobremesas()
+    getDesserts()
   }, []);
+
+  console.log(products);
 
 
 
@@ -63,10 +65,10 @@ export default function Sobremesas() {
     <Layout>
       <h1>Sobremesas</h1>
       <ProductCategories>
-      {isLoading ? (<p>Carregando</p>)
+        {isLoading ? (<p>Carregando</p>)
           : (
             categories.map((item, index) => (
-              <CategoryList key={index} data={item}/>
+              <CategoryList key={index} data={item} />
             ))
           )}
       </ProductCategories>
@@ -82,7 +84,7 @@ export default function Sobremesas() {
                   <Button onClick={() => { }}>Adicionar</Button>
                 </ProductCardContent>
                 <ProductCardPrice>
-                  {priceFormat(product.values.single)}
+                  {priceFormat(product.value)}
                 </ProductCardPrice>
                 <img src={product.image[0]} alt={product.title} />
               </ProductCard>
