@@ -5,12 +5,13 @@ import {
   ProductCardContent,
   ProductCardPrice,
 } from "../../components/ProductCard/ProductCard.style";
+import { ButtonAppettizers } from "./Appetizers.style";
 
 export default function Appetizers() {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [selectedPrices, setSelectedPrices] = useState("small"); // Estado para armazenar os preços selecionados
+  const [selectedPrices, setSelectedPrices] = useState({}); // Estado para armazenar os preços selecionados
 
   const priceFormat = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -43,6 +44,13 @@ export default function Appetizers() {
 
       // Inicializar os preços selecionados para cada produto como "small"
       setProducts(data);
+
+      // Inicializar os preços selecionados para cada produto como "small"
+      const initialSelectedPrices = {};
+      data.forEach((product, index) => {
+        initialSelectedPrices[index] = "small";
+      });
+      setSelectedPrices(initialSelectedPrices);
     } catch (error) {
       console.log(error);
     } finally {
@@ -59,7 +67,7 @@ export default function Appetizers() {
   }, []);
 
   const handlePriceChange = (index: number, price: string) => {
-    setSelectedPrices({ selectedPrices, [index]: price }); // Atualizar o preço selecionado para o produto com o índice correspondente
+    setSelectedPrices({ ...selectedPrices, [index]: price }); // Atualizar o preço selecionado para o produto com o índice correspondente
   };
 
   return (
@@ -83,32 +91,36 @@ export default function Appetizers() {
               <ProductCardContent>
                 <h2>{product.title}</h2>
                 <p>{product.description}</p>
-                <div>
+                <ButtonAppettizers>
                   {/* Botões de rádio para seleção de preço */}
-                  <input
-                    type="radio"
-                    id={`price_small_${index}`}
-                    value="small"
-                    checked={selectedPrices[index] === "small"}
-                    onChange={() => handlePriceChange(index, "small")}
-                  />
-                  <label htmlFor={`price_small_${index}`}>Pequeno</label>
+                  <div>
 
-                  <input
-                    type="radio"
-                    id={`price_large_${index}`}
-                    value="large"
-                    checked={selectedPrices[index] === "large"}
-                    onChange={() => handlePriceChange(index, "large")}
-                  />
-                  <label htmlFor={`price_large_${index}`}>Grande</label>
-                </div>
+                    <input
+                      type="radio"
+                      id={`price_small_${index}`}
+                      value="small"
+                      checked={selectedPrices[index] === "small"}
+                      onChange={() => handlePriceChange(index, "small")}
+                    />
+                    <label htmlFor={`price_small_${index}`}>Pequeno</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id={`price_large_${index}`}
+                      value="large"
+                      checked={selectedPrices[index] === "large"}
+                      onChange={() => handlePriceChange(index, "large")}
+                    />
+                    <label htmlFor={`price_large_${index}`}>Grande</label>
+                  </div>
+                </ButtonAppettizers>
                 <Button onClick={() => { }}>Adicionar</Button>
               </ProductCardContent>
               {/* Utilize o preço selecionado para exibir o valor correto */}
               <ProductCardPrice>
                 {priceFormat(
-                  product.values[selectedPrices[index] as keyof typeof product.values]
+                  product.values[selectedPrices[index]]
                 )}
               </ProductCardPrice>
               <img src={product.image} alt={product.title} />

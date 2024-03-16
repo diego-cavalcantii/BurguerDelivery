@@ -86,7 +86,7 @@ export default function Beverages() {
                 <ProductCardPrice>
                   {priceFormat(product.value)}
                 </ProductCardPrice>
-                <img src={product.image[0]} alt={product.title} />
+                <img src={product.image} alt={product.title} />
               </ProductCard>
             ))
           )
